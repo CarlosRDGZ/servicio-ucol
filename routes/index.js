@@ -1,9 +1,9 @@
 const { Router } = require('express')
-const fields = require('./fields')
+const form = require('./form')
 
 const routes = Router()
 
-routes.use('/fields', fields)
+routes.use('/form', form)
 
 routes.route('/')
   .get((_, res) => res.send('Hello, World!'))
