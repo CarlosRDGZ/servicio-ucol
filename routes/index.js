@@ -4,9 +4,7 @@ const cors = require('cors')
 
 const routes = Router()
 
-routes.use(cors({
-  origin: 'http://localhost:3000'
-}))
+routes.use(cors())
 routes.use('/form', form)
 
 routes.route('/')
