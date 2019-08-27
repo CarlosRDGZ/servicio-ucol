@@ -10,6 +10,6 @@ const app = express()
 
 mongoose.connect(MONGO_URI, { useNewUrlParser: true }).catch(console.log)
 
-app.use('/', routes)
+app.use(routes)
 
 app.listen(PORT_, () => console.log('Listening...'))
