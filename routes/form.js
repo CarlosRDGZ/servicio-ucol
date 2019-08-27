@@ -64,7 +64,7 @@ router.use((err, req, res, next) => {
   }
 })
 
-router.route('/:formID/fields/')
+router.route('/:formId/fields/')
 .get(async (req, res) => {
   try {
     const { formId } = req.params
