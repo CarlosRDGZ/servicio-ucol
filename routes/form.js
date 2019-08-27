@@ -67,7 +67,8 @@ router.use((err, req, res, next) => {
 router.route('/:formID/fields/')
 .get(async (req, res) => {
   try {
-    const fields = await Field.find({ deleted: false }, fieldFormat)
+    const { formId } = req.params
+    const fields = await Field.find({ deleted: false, formId: formId }, fieldFormat)
     res.json({
       status: 'success',
       data: fields
@@ -93,8 +94,8 @@ router.route('/:formID/fields/')
 router.route('/:formID/fields/:fieldId')
   .get(async (req, res) => {
     try {
-      const { id } = req.params
-      const field = await Field.findOne({ _id: id, deleted: false }, fieldFormat)
+      const { fieldId } = req.params
+      const field = await Field.findOne({ _id: fieldId, deleted: false }, fieldFormat)
 
       if (!field)
         throw new DocumentNotFoundError()
