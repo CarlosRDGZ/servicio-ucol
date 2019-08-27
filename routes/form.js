@@ -50,6 +50,8 @@ const errorSelecter = error => {
 
 const router = Router()
 
+const fieldFormat = '_id title required name config'
+
 router.use(bodyParser.urlencoded({ extended: true }))
 router.use(bodyParser.json())
 router.use((err, req, res, next) => {
@@ -65,7 +67,7 @@ router.use((err, req, res, next) => {
 router.route('/:formID/fields/')
 .get(async (req, res) => {
   try {
-    const fields = await Field.find({ deleted: false })
+    const fields = await Field.find({ deleted: false }, fieldFormat)
     res.json({
       status: 'success',
       data: fields
@@ -80,7 +82,7 @@ router.route('/:formID/fields/')
     const field = await new Field(req.body).save()
     res.status(201).json({
       status: 'success',
-      data: field
+      data: field.getPublicFields()
     })
   } catch (e) {
     const { code, data } = errorSelecter(e)
@@ -92,14 +94,14 @@ router.route('/:formID/fields/:fieldId')
   .get(async (req, res) => {
     try {
       const { id } = req.params
-      const field = await Field.findOne({ _id: id, deleted: false })
+      const field = await Field.findOne({ _id: id, deleted: false }, fieldFormat)
 
       if (!field)
         throw new DocumentNotFoundError()
 
       res.json({
         status: 'success',
-        data: field
+        data: field.getPublicFields()
       })
     } catch (e) {
       const { code, data } = errorSelecter(e)
@@ -122,7 +124,7 @@ router.route('/:formID/fields/:fieldId')
 
       res.json({
         status: 'success',
-        data: newField
+        data: newField.getPublicFields()
       })
     } catch (e) {
       const { code, data } = errorSelecter(e)
